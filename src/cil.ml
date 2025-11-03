@@ -5102,20 +5102,20 @@ let loadBinaryFile (filename : string) : file =
 
 (* Take the name of a file and make a valid symbol name out of it. There are 
  * a few characters that are not valid in symbols *)
-let makeValidSymbolName (s: string) = 
-  let s = String.copy s in (* So that we can update in place *)
-  let l = String.length s in
+let makeValidSymbolName (s: string) =
+  let bs = Bytes.of_string s in (* Convert to mutable bytes *)
+  let l = Bytes.length bs in
   for i = 0 to l - 1 do
-    let c = String.get s i in
-    let isinvalid = 
+    let c = Bytes.get bs i in
+    let isinvalid =
       match c with
         '-' | '.' -> true
       | _ -> false
     in
-    if isinvalid then 
-      String.set s i '_';
+    if isinvalid then
+      Bytes.set bs i '_';
   done;
-  s
+  Bytes.to_string bs
 
 let rec addOffset (toadd: offset) (off: offset) : offset =
   match off with
@@ -6717,7 +6717,7 @@ let rec xform_switch_stmt s break_dest cont_dest = begin
        * label_break: ; // break_stmt
        *
        * The default case, if present, must be used only if *all*
-       * non-default cases fail [ISO/IEC 9899:1999, §6.8.4.2, ¶5]. As
+       * non-default cases fail [ISO/IEC 9899:1999, ï¿½6.8.4.2, ï¿½5]. As
        * a result, we test all cases first, and hit 'default' only if
        * no case matches. However, we do not reorder the switch's
        * body, so fall-through still works as expected.

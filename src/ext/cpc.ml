@@ -2199,14 +2199,14 @@ let make_function_name toplevel label =
   let l = Str.replace_first r "" label in
   Printf.sprintf "__%s_%s" t l
 
-exception FoundType of typ
+exception FoundReturnType of typ
 
 class hasReturn = object(self)
   inherit mynopCilVisitor
 
   method vstmt s = match s.skind with
-  | Return (Some e, _) -> raise (FoundType (typeOf e))
-  (*| Return (None, _) -> raise (FoundType voidType)*)
+  | Return (Some e, _) -> raise (FoundReturnType (typeOf e))
+  (*| Return (None, _) -> raise (FoundReturnType voidType)*)
   | _ -> DoChildren
 end
 

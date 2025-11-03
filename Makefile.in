@@ -80,7 +80,7 @@ CILLY_EXE_BIN = $(patsubst $(OBJDIR)/src/cilly.%,bin/$(CILLY).%,$(CILLY_EXE_FILE
 
 # Force a single invocation of ocamlbuild per make execution
 
-OCAMLBUILD += -build-dir $(OBJDIR) -no-links -classic-display
+OCAMLBUILD += -build-dir $(OBJDIR) -no-links -classic-display -use-ocamlfind
 
 OCAMLBUILD_TARGETS = \
 	$(CILLIB_TARGETS) \

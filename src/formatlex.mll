@@ -144,12 +144,12 @@ let scan_oct_escape str =
  * into a sequence of normal characters. Here we work on strings. 
  * We convert L"Hi" to "H\000i\000" *)
 let wbtowc wstr =
-  let len = String.length wstr in 
-  let dest = String.make (len * 2) '\000' in 
-  for i = 0 to len-1 do 
-    dest.[i*2] <- wstr.[i] ;
+  let len = String.length wstr in
+  let dest = Bytes.make (len * 2) '\000' in
+  for i = 0 to len-1 do
+    Bytes.set dest (i*2) wstr.[i] ;
   done ;
-  dest
+  Bytes.to_string dest
 
 (* This function converst the "Hi" in L"Hi" to { L'H', L'i', L'\0' } *)
 let wstr_to_warray wstr =
